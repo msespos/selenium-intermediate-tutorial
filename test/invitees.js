@@ -14,5 +14,14 @@ suite(function(env) {
       assert(elements.length > 0);
       driver.quit();
     });
+
+    it('has registration form', async function() {
+      this.timeout(10000);
+      let driver = env.builder().build();
+      await driver.get(url);
+      let elements = await driver.findElements(By.id('registrar'));
+      assert(elements.length > 0);
+      driver.quit();
+    })
   });
 });
