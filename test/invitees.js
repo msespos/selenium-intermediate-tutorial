@@ -6,22 +6,26 @@ const url = "https://treehouse-projects.github.io/selenium-webdriver-intermediat
 
 suite(function(env) {
   describe('RSVP site', function() {
-    it('has invitee list', async function() {
+    let driver;
+    
+    before(async function() {
       this.timeout(10000);
-      let driver = env.builder().build();
+      driver = env.builder().build();
       await driver.get(url);
+    });
+
+    it('has invitee list', async function() {
       let elements = await driver.findElements(By.id('invitedList'));
       assert(elements.length > 0);
-      driver.quit();
     });
 
     it('has registration form', async function() {
-      this.timeout(10000);
-      let driver = env.builder().build();
-      await driver.get(url);
       let elements = await driver.findElements(By.id('registrar'));
       assert(elements.length > 0);
-      driver.quit();
     })
+
+    after(async function() {
+      driver.quit();
+    });
   });
 });
