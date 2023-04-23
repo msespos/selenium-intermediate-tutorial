@@ -2,6 +2,7 @@ const {Browser, By, Key, until} = require("selenium-webdriver");
 const {suite} = require("selenium-webdriver/testing");
 const assert = require("assert");
 const RsvpPage = require('../pages/rsvp.js');
+const { elementLocated } = require("selenium-webdriver/lib/until.js");
 
 suite(function(env) {
   describe('RSVP site', function() {
@@ -26,9 +27,11 @@ suite(function(env) {
     });
 
     it('loads existing invitations', async function() {
-      await driver.manage().setTimeouts({implicit: 3000});
-      let invitees = await driver.findElements(page.locators.invitees);
-      let text = await invitees[1].getText();
+      let list = await driver.findElement(page.locators.invitedList);
+      await driver.wait(
+        until.elementLocated(page.locators.invitees)
+      );
+      let text = await list.getText();
       assert(text.includes("Craig Dennis"));
     });
 
